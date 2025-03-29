@@ -1,0 +1,5 @@
+python
+django
+speech_recognition
+google.generativeai
+gtts
