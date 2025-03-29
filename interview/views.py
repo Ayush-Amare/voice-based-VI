@@ -10,8 +10,8 @@ import os
 import re
 import json
 
-# Configure Gemini AI
-genai.configure(api_key="AIzaSyCx4BICdM3QbeFDJuYDf6uq6SzL05d-mfQ")
+# Generate and Configure your Gemini API 
+genai.configure(api_key="YOUR_GEMINI_API_KEY")
 
 def generate_tts_audio(text):
     """Generate TTS audio and return the relative media URL."""
