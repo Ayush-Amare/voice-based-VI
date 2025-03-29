@@ -38,23 +38,33 @@
 {% block extra_js %}
     <script>
         function downloadEvaluation() {
-            const feedback = document.querySelector(".feedback").innerText.trim();
-            let responses = "Your Responses:\n";
-    
-            document.querySelectorAll(".question").forEach((q, index) => {
-                let answerText = document.querySelectorAll(".answer")[index].textContent.split(": ")[1] || "No answer provided";
-                responses += `\nQ${index + 1}: ${q.innerText}\nA: ${answerText}\n`;
-            });
-    
-            const evaluationText = `Interview Evaluation\n\n${feedback}\n\n${responses}`;
-            const blob = new Blob([evaluationText], { type: "text/plain" });
-    
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "Interview_Evaluation.txt";
-            link.click();
-    
-            alert("Your interview evaluation has been downloaded successfully!");
-        }
+                const feedback = document.querySelector(".feedback").innerText.trim();
+                let responses = "Your Responses:\n";
+
+                const questions = document.querySelectorAll(".question");
+                const answers = document.querySelectorAll(".answer");
+                
+                questions.forEach((q, index) => {
+                    let questionText = q.innerText.trim();
+                    let answerText = answers[index]?.innerText.replace("Answer: ", "").trim() || "No answer provided";
+                    responses += `\n${questionText}\nA: ${answerText}\n`;
+                });
+
+                const evaluationText = `Interview Evaluation\n\n${feedback}\n\n${responses}`;
+                const blob = new Blob([evaluationText], { type: "text/plain" });
+
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "Interview_Evaluation.txt";
+
+                document.body.appendChild(link);
+                link.click();
+
+                // Cleanup
+                URL.revokeObjectURL(link.href);
+                document.body.removeChild(link);
+
+                alert("Your interview evaluation has been downloaded successfully!");
+            }
     </script>
 {% endblock %}
