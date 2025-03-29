@@ -1,0 +1,93 @@
+body {
+    background-color: #000000;
+    color: #fff;
+}
+
+.auth-container {
+    width: 350px;
+    background: #101010;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.auth-box h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white; /* Ensure labels are visible */
+}
+
+.input-with-icon {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.input-icon {
+    color: white;
+    margin-right: 10px;
+}
+
+input {
+    width: 100%;
+    background-color: rgb(0, 0, 0) !important;
+    color: rgb(255, 255, 255) !important;
+    border: none;
+    outline: none;
+    padding: 5px;
+}
+
+input::placeholder {
+    color: #ccc;
+}
+
+/* Ensure focus state is visible */
+input:focus {
+    border-color: #c21919;
+    box-shadow: 0 0 5px rgba(194, 25, 25, 0.5);
+}
+
+
+button {
+    background-color: #c21919;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e03e3e;
+}
+
+a {
+    color: #e03e3e;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #ff8c00, #ff0080);
+    background-clip: text;
+    -webkit-background-clip: text; /* For WebKit browsers */
+    color: transparent;
+}

@@ -1,0 +1,111 @@
+{% extends "dashbase.html" %}
+{% load static %}
+
+{% block title %}Start Interview - VI-INT{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center vh-50">
+    <div class="card shadow-lg p-5 text-white border-0 rounded-4 glass-effect text-center" style="max-width: 600px;">
+        <h2 class="fw-bold gradient-text">Start Your Interview</h2>
+        <p class="text-light">Select your job profile and difficulty level to begin.</p>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="job" class="form-label">Job Profile:</label>
+                <input type="text" name="job" id="job" class="form-control glass-input" value="Software Analyst" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="difficulty" class="form-label">Difficulty:</label>
+                <select name="difficulty" id="difficulty" class="form-select glass-dropdown">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-gradient btn-lg btn-animated">🚀 Start Interview</button>
+        </form>
+    </div>
+</div>
+
+<style>
+
+.vh-50 {
+    height: 70vh !important;
+}
+
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(45deg, #ff8c00, #ff0080);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Glass Input Fields */
+.glass-input {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.glass-input:focus {
+    border-color: #ff0080;
+    box-shadow: 0px 0px 10px rgba(255, 0, 128, 0.5);
+    outline: none;
+}
+/* Glass Dropdown Styling */
+.glass-dropdown {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.glass-dropdown option {
+    background: black;
+    color: white;
+}
+
+.glass-dropdown:focus {
+    border-color: #ff0080;
+    box-shadow: 0px 0px 10px rgba(255, 0, 128, 0.5);
+    outline: none;
+}
+
+/* Button Styling */
+.btn-gradient {
+    background: linear-gradient(45deg, #ff8c00, #ff0080);
+    color: white;
+    border: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-animated:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+}
+</style>
+
+{% endblock %}

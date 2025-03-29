@@ -1,0 +1,33 @@
+{% extends "dashbase.html" %}
+{% block title %}Past Interviews{% endblock %}
+
+{% block content %}
+<div class="container text-light text-center mt-5">
+    <h2 class="mb-4">Your Past Interviews</h2>
+
+    {% if sessions %}
+        <ul class="list-group bg-dark">
+            {% for session in sessions %}
+                <li class="list-group-item bg-secondary text-light d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ session.job_profile }}</strong> ({{ session.difficulty }})  
+                        <small class="d-block text-muted">{{ session.created_at }}</small>
+                    </div>
+                    <div>
+                        {% if session.evaluated %}
+                            <a href="{% url 'evaluate_interview' session.id %}" class="btn btn-success btn-sm">View Evaluation</a>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="d-flex flex-column align-items-center justify-content-center vh-50">
+            <p class="text-light fs-4">No past interviews found.</p>
+            <a href="{% url 'start_interview' %}" class="btn btn-primary mt-3">Start a New Interview</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

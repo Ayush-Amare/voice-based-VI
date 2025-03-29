@@ -1,0 +1,241 @@
+/* 🌙 Dark Theme Styles */
+body {
+    background: url("../images/background.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+}
+
+/* 🔹 Navbar */
+.navbar {
+    background-color: #1e1e1e !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 10;
+}
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+.navbar-brand:hover {
+    color: #ff5757 !important;
+}
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+.navbar-nav .nav-link:hover {
+    color: #ff5757 !important; 
+    transform: scale(1.1);
+}
+
+/* 🔹 Hero Section */
+header {
+    background: linear-gradient(135deg, #252525, #1a1a1a);
+    padding: 80px 0;
+    text-align: center;
+}
+header h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* 🔹 Buttons */
+.btn, .glass-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+.btn:hover, .glass-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+}
+.logout-btn {
+    background: #444;
+}
+.logout-btn:hover {
+    background: #777;
+}
+
+/* 🔹 Animated Glow for Titles */
+h2 {
+    color: #ff5757;
+    text-shadow: 0 0 10px rgba(255, 87, 87, 0.8);
+    font-weight: bold;
+    text-align: center;
+}
+h3 {
+    color: #ffffff;
+}
+p {
+    color: #b3b3b3;
+}
+
+/* 🔹 Section Styling */
+section.container {
+    background-color: #000000;
+    padding: 40px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+section.container:hover {
+    box-shadow: 0 5px 15px rgba(255, 87, 87, 0.3);
+}
+
+/* 🔹 Dashboard */
+.dashboard-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #1e1e1e;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+.dashboard-container h1 {
+    font-size: 2rem;
+    color: #c21919;
+}
+.subtitle {
+    color: #b3b3b3;
+    margin-bottom: 20px;
+}
+.dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 🔹 Footer */
+footer {
+    background-color: #1e1e1e;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: auto;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+/* 🔹 Black Card */
+.black-rounded {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.black-rounded h2, .black-rounded label {
+    color: white;
+}
+.black-rounded p {
+    color: rgba(255, 255, 255, 0.7);
+}
+.black-rounded input,
+.black-rounded select {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    width: 100%;
+}
+.black-rounded input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+.black-rounded button {
+    background-color: #ff7eb3;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.black-rounded button:hover {
+    background-color: #ff5691;
+    transform: scale(1.05);
+}
+
+/* 🔹 Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 🔹 Gradient Text */
+.gradient-text {
+    background: linear-gradient(45deg, #ff8c00, #ff0080);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+
+/* Response Card */
+.response-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2);
+}
+
+/* Question Text */
+.question {
+    color: #00bcd4; /* Light blue */
+    font-weight: bold;
+}
+
+/* Answer Text */
+.answer {
+    color: #e0e0e0;
+    font-size: 16px;
+}
+
+/* Spacing for audio players */
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Glow Effect */
+.response-card:hover {
+    box-shadow: 0 0 10px #00bcd4;
+}

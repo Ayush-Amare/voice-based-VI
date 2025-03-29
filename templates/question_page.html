@@ -1,0 +1,159 @@
+{% extends 'interbase.html' %}
+
+{% block title %}Interview Question{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h2 class="fw-bold d-inline-block">Question {{ question_number }} of {{ total_questions }}</h2>
+        <button id="repeat-audio" class="btn btn-secondary btn-sm ms-2">🔁</button>
+    </div>
+
+    <p class="fs-4">{{ question }}</p>
+
+    <audio id="question-audio" muted>
+        <source src="{{ tts_audio_url }}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="my-3 text-center">
+        <button id="start-recording" class="btn btn-primary btn-lg rounded-circle p-3">🎙️</button>
+        <button id="stop-recording" class="btn btn-danger btn-lg rounded-circle p-3 ms-3" disabled>🛑</button>
+        <button id="reset-content" class="btn btn-warning btn-lg ms-3">🔄 Reset</button>
+    </div>
+
+    <audio id="recorded-audio" controls class="mt-3 d-none"></audio>
+
+    <div class="mt-3">
+        <label for="transcribed-text" class="fw-bold">Your Answer:</label>
+        <textarea id="transcribed-text" class="form-control" rows="3" readonly></textarea>
+    </div>
+
+    <input type="hidden" id="next-question-url" value="{% url 'question_page' question_number=question_number|add:1 %}">
+    <input type="hidden" id="finish-interview-url" value="{% url 'evaluate_interview' session_id=request.session.interview_session_id %}">
+
+    <div class="mt-4 text-center">
+        {% if question_number < total_questions %}
+            <button id="next-question" class="btn btn-success btn-lg">Next Question</button>
+        {% else %}
+            <button id="finish-interview" class="btn btn-warning btn-lg">Finish Interview</button>
+        {% endif %}
+    </div>
+    
+    <script>
+        const audioElement = document.getElementById("question-audio");
+        const repeatButton = document.getElementById("repeat-audio");
+        const transcribedTextArea = document.getElementById("transcribed-text");
+
+        window.onload = function () {
+            audioElement.muted = false;
+            audioElement.play().catch(() => {
+                console.log("Autoplay blocked. User interaction required.");
+            });
+        };
+
+        repeatButton.addEventListener("click", () => {
+            audioElement.play();
+        });
+
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!window.SpeechRecognition) {
+            alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+        }
+
+        let recognition;
+        function startSpeechRecognition() {
+            if (!window.SpeechRecognition) return;
+
+            recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                transcribedTextArea.value += (transcribedTextArea.value ? " " : "") + transcript; // Append instead of overwrite
+            };
+
+            recognition.onerror = function (event) {
+                console.error("Speech recognition error:", event.error);
+                transcribedTextArea.value = "Error capturing speech.";
+            };
+
+            recognition.start();
+            document.getElementById("start-recording").disabled = true;
+            document.getElementById("stop-recording").disabled = false;
+        }
+
+        function stopSpeechRecognition() {
+            if (recognition) {
+                recognition.stop();
+                document.getElementById("start-recording").disabled = false;
+                document.getElementById("stop-recording").disabled = true;
+            }
+        }
+
+        function saveTextToDB(answerText, callback) {
+            fetch("{% url 'process_audio' %}", {  
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({
+                    session_id: "{{ request.session.interview_session_id }}",
+                    question_number: {{ question_number }},
+                    answer_text: answerText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response saved:", data);
+                if (callback) callback();
+            })
+            .catch(error => {
+                console.error("Error saving response:", error);
+                alert("Failed to save response. Please try again.");
+            });
+        }
+
+        document.getElementById("next-question")?.addEventListener("click", function (event) {
+            event.preventDefault();
+            const answerText = transcribedTextArea.value.trim();
+            if (!answerText) {
+                alert("Please provide an answer before proceeding.");
+                return;
+            }
+            saveTextToDB(answerText, () => {
+                window.location.href = document.getElementById("next-question-url").value;
+            });
+        });
+
+        document.getElementById("finish-interview")?.addEventListener("click", function (event) {
+            event.preventDefault();
+            const answerText = transcribedTextArea.value.trim();
+            if (!answerText) {
+                alert("Please provide an answer before finishing.");
+                return;
+            }
+            const finishUrl = document.getElementById("finish-interview-url").value;
+            console.log("Navigating to:", finishUrl);
+            saveTextToDB(answerText, () => {
+                window.location.href = finishUrl;
+            });
+        });
+
+        document.getElementById("reset-content").addEventListener("click", function () {
+            if (recognition) {
+                recognition.stop();
+            }
+            transcribedTextArea.value = "";
+            const recordedAudio = document.getElementById("recorded-audio");
+            recordedAudio.src = "";
+            recordedAudio.classList.add("d-none");
+            console.log("✅ Content reset successfully!");
+        });
+
+        document.getElementById("start-recording").addEventListener("click", startSpeechRecognition);
+        document.getElementById("stop-recording").addEventListener("click", stopSpeechRecognition);
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "evaluation_base.html" %}
+{% block title %}Interview Results - VI-INT{% endblock %}
+
+{% block content %}
+    <h2 class="mb-3">Interview Evaluation</h2>
+
+    <!-- AI Feedback Section -->
+    <div class="feedback p-3">
+        <h4 class="mb-2">AI Feedback:</h4>
+        <p>{{ feedback }}</p>
+    </div>
+
+    <!-- User Responses -->
+    <h4 class="mt-4">Your Responses:</h4>
+    <ul class="list-unstyled">
+        {% for response in responses %}
+            <li class="mb-4 p-3 bg-dark text-white">
+                <div class="question"><strong>Q{{ response.question_number }}:</strong> {{ response.question_text }}</div>
+                <div class="answer"><strong>Answer:</strong> {{ response.answer_text }}</div>
+                {% if response.audio_response %}
+                    <div class="mt-2">
+                        <audio controls>
+                            <source src="{{ response.audio_response.url }}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block buttons %}
+    <a href="{% url 'start_interview' %}" class="btn btn-primary me-3">Start New Interview</a>
+    <button onclick="downloadEvaluation()" class="btn btn-success">Download Evaluation</button>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function downloadEvaluation() {
+            const feedback = document.querySelector(".feedback").innerText.trim();
+            let responses = "Your Responses:\n";
+    
+            document.querySelectorAll(".question").forEach((q, index) => {
+                let answerText = document.querySelectorAll(".answer")[index].textContent.split(": ")[1] || "No answer provided";
+                responses += `\nQ${index + 1}: ${q.innerText}\nA: ${answerText}\n`;
+            });
+    
+            const evaluationText = `Interview Evaluation\n\n${feedback}\n\n${responses}`;
+            const blob = new Blob([evaluationText], { type: "text/plain" });
+    
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Interview_Evaluation.txt";
+            link.click();
+    
+            alert("Your interview evaluation has been downloaded successfully!");
+        }
+    </script>
+{% endblock %}

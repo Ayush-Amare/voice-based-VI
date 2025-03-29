@@ -1,0 +1,54 @@
+{% extends "dashbase.html" %}
+{% load static %}
+
+{% block title %}Dashboard - VI-INT{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-50">
+    <div class="card shadow-lg p-5 text-white border-0 rounded-4 glass-effect text-center" style="max-width: 600px;">
+        <h2 class="fw-bold gradient-text">Welcome, {{ user.username }}!</h2>
+        <p class="text-light">Your dashboard provides insights and options to manage your interviews.</p>
+
+        <div class="d-flex justify-content-around mt-4">
+            <a href="{% url 'start_interview' %}" class="btn btn-warning btn-lg btn-animated px-4">🎤 Start Interview</a>
+            <a href="{% url 'past_interview' %}" class="btn btn-primary btn-lg btn-animated px-4">📜 View History</a>
+        </div>
+    </div>
+</div>
+
+<style>
+/*Background Slideshow */
+.vh-50 {
+    height: 70vh !important;
+}
+
+/* 🌟 Glass Effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(45deg, #ff8c00, #ff0080);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Button Hover Effects */
+.btn-animated {
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.btn-animated:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+}
+</style>
+
+{% endblock %}
